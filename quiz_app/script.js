@@ -75,7 +75,7 @@ function clearState() {
   while (answerButtons.firstChild) {
     answerButtons.removeChild(answerButtons.firstChild);
   }
-}
+} 
 
 function selectAnswer(e) {
   const selectedBtn = e.target;
