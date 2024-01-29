@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 let totalblog = 0;
 const baseUrl =
-  "https://crudcrud.com/api/e2e97f4c37184bb6a962e1cfe09d630e/blog/";
+  "https://crudcrud.com/api/419591925ccb41c292190ca3430c1f5b/blog/";
 
 const blogRowRef = document.getElementById("blog-data");
 const totalBlog = document.getElementById("total-blog");
@@ -12,6 +12,8 @@ const title = document.getElementById("title");
 const description = document.getElementById("description");
 const img_url = document.getElementById("img_url");
 const id = document.getElementById("_id");
+const addBtn = document.getElementById("addBtn");
+
 
 // ADDING OR UPDATING BLOG
 function addBlog(e) {
@@ -37,22 +39,27 @@ function addBlog(e) {
     axios
       .post(baseUrl, patientDetail)
       .then((res) => {
-        displayBlog(res.data);
+        if (res.status === 201) {
+          displayBlog(res.data);
+        }
       })
       .catch((err) => console.log(err));
   } else {
     // UDATING DATA
-    console.log(baseUrl + idVal);
-    console.log(patientDetail);
+
+    // console.log(baseUrl + idVal);
+    // console.log(patientDetail);
     axios
       .put(baseUrl + idVal, patientDetail)
       .then((res) => {
-        displayBlog({
-          title: titleVal,
-          description: descriptionVal,
-          img_url: img_urlVal,
-          _id: idVal,
-        });
+        if (res.status === 200) {
+          displayBlog({
+            title: titleVal,
+            description: descriptionVal,
+            img_url: img_urlVal,
+            _id: idVal,
+          });
+        }
       })
       .catch((err) => console.log(err));
   }
@@ -61,6 +68,7 @@ function addBlog(e) {
   description.value = "";
   img_url.value = "";
   idVal.value = "";
+  addBtn.textContent = "Add";
 }
 
 // DIPLAYING ALL BLOGS
@@ -117,7 +125,7 @@ function deleteBlog(id, e) {
       if (res.status === 200) {
         // event.target will be the input element.
         var td = e.target.parentNode;
-        var tr = td.parentNode; // the row to be removed
+        var tr = td.parentNode; 
         var tr1 = tr.parentNode; // the row to be removed
         tr1.parentNode.removeChild(tr1);
         totalblog--;
@@ -139,6 +147,7 @@ function updateBlog(b_id, e) {
   description.value = tr.childNodes[3].childNodes[3].innerText;
   img_url.value = tr.childNodes[1].src;
   id.value = b_id;
+  addBtn.textContent = "Update"
 
   var tr1 = tr.parentNode; // the row to be removed
   tr1.parentNode.removeChild(tr1);
